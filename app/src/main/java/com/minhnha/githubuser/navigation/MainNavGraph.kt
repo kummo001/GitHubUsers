@@ -13,6 +13,6 @@ fun NavGraphBuilder.mainNavGraph(
         HomeView(navController)
     }
     composable(route = UserDetailRoute.UserDetail.Route) {
-        UserDetailView()
+        UserDetailView(navController)
     }
 }
