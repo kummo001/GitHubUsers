@@ -1,5 +1,6 @@
 package com.minhnha.githubuser.ui.composables
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -7,8 +8,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontFamily
@@ -26,6 +30,9 @@ fun TopBar(
     onBackButtonClick: () -> Unit
 ) {
     TopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.White
+        ),
         title = {
             Text(
                 text = title,
@@ -34,14 +41,16 @@ fun TopBar(
                     .fillMaxWidth(),
                 textAlign = TextAlign.Center,
                 fontFamily = FontFamily.Monospace,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
             )
         },
         navigationIcon = {
             IconButton(onClick = onBackButtonClick) {
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.baseline_keyboard_backspace_24),
-                    contentDescription = "Back"
+                    contentDescription = "Back",
+                    tint = Color.Black
                 )
             }
         }

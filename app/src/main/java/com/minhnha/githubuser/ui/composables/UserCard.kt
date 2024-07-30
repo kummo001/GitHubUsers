@@ -18,10 +18,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.minhnha.domain.entity.UserInfo
+import com.minhnha.domain.model.User
 
 @Composable
-fun UserCard(userInfo: UserInfo) {
+fun UserCard(userInfo: User) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -45,16 +45,25 @@ fun UserCard(userInfo: UserInfo) {
                     contentScale = ContentScale.Crop
                 ),
                 contentDescription = "avatar",
-                modifier = Modifier.weight(1.5f)
+                modifier = Modifier
+                    .weight(1.5f)
+                    .padding(horizontal = 10.dp)
             )
             Column(modifier = Modifier.weight(3f)) {
-                Text(text = userInfo.loginName ?: "Unknown", fontWeight = FontWeight.Bold)
+                Text(
+                    text = userInfo.loginName ?: "Unknown",
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
                 HorizontalDivider(
                     thickness = 1.dp,
                     color = Color.Gray,
                     modifier = Modifier.padding(vertical = 10.dp)
                 )
-                Text(text = userInfo.htmlUrl ?: "Unknown")
+                Text(
+                    text = userInfo.htmlUrl ?: "Unknown",
+                    color = Color.Black
+                )
             }
         }
     }
@@ -63,7 +72,7 @@ fun UserCard(userInfo: UserInfo) {
 @Preview
 @Composable
 fun UserCardPreview() {
-    val userInfo = UserInfo(
+    val userInfo = User(
         loginName = "mojombo",
         avatarUrl = "https://avatars.githubusercontent.com/u/1?v=4",
         htmlUrl = "https://github.com/mojombo"

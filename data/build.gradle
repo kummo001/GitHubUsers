@@ -42,13 +42,21 @@ kapt {
 
 dependencies {
 
+
+    implementation project(':domain')
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
     implementation libs.material
     implementation libs.hilt.android
     implementation libs.play.services.nearby
     annotationProcessor libs.hilt.compiler
-    implementation project(':domain')
+
+    // retrofit
+    implementation libs.retrofit
+    implementation libs.converter.gson
+    implementation libs.converter.moshi
+    implementation libs.okhttp
+    implementation libs.logging.interceptor
 
     //hilt
     implementation libs.hilt.android

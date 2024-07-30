@@ -1,0 +1,15 @@
+package com.minhnha.data.model
+
+import com.google.gson.annotations.SerializedName
+
+data class UsersResponse(
+
+    @SerializedName("login")
+    val loginName: String?,
+
+    @SerializedName("avatar_url")
+    val avatarUrl: String?,
+
+    @SerializedName("html_url")
+    val htmlUrl: String?
+)
