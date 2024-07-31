@@ -48,7 +48,7 @@ fun UserDetailView(
 
     when (uiState.userDetail) {
         is Result.Loading -> {
-            viewModel.getUserDetail("mojombo")
+            viewModel.getUserDetail(loginName)
         }
 
         is Result.Success -> {
