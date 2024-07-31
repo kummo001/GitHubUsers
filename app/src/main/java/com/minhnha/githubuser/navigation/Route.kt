@@ -19,7 +19,7 @@ sealed class UserDetailRoute : GitHubUserRoute() {
         override val route = Route
 
         companion object {
-            const val Route = "UserDetail"
+            const val Route = "UserDetail/{loginName}"
         }
     }
 }

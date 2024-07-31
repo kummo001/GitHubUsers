@@ -23,6 +23,7 @@ jetbrainsKotlinJvm = "1.9.0"
 appcompat = "1.7.0"
 loggingInterceptorVersion = "5.0.0-alpha.2"
 material = "1.12.0"
+materialVersion = "1.6.8"
 mockitoCore = "5.7.0"
 mockitoKotlin = "2.0.0-RC1"
 mockitoKotlinVersion = "5.3.1"
@@ -40,6 +41,7 @@ monitor = "1.6.1"
 truth = "1.4.2"
 uiTestJunit4Version = "1.6.8"
 uiTestManifest = "1.6.8"
+benchmarkCommonVersion = "1.2.4"
 
 [libraries]
 accompanist-permissions-v0315beta = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissionsVersion" }
@@ -48,6 +50,7 @@ androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", versi
 androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
+androidx-material = { module = "androidx.compose.material:material", version.ref = "materialVersion" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 androidx-navigation-testing = { module = "androidx.navigation:navigation-testing", version.ref = "navigationTestingVersion" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
@@ -93,6 +96,7 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "uiTestJunit4Version" }
 ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestManifest" }
+androidx-benchmark-common = { group = "androidx.benchmark", name = "benchmark-common", version.ref = "benchmarkCommonVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
