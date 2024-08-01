@@ -17,7 +17,7 @@ data class UserDetailUiState(
 ) {
     companion object {
         val default = UserDetailUiState(
-            userDetail = Result.Loading
+            userDetail = Result.Idle
         )
     }
 }

@@ -30,7 +30,7 @@ fun UserCard(
     userInfo: User,
     isDetailCard: Boolean = false,
     location: String? = null,
-    onClick: (name: String) -> Unit
+    onClick: (name: String) -> Unit = {}
 ) {
     Card(
         modifier = Modifier

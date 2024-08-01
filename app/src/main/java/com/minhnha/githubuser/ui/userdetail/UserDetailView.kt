@@ -1,10 +1,14 @@
 package com.minhnha.githubuser.ui.userdetail
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
@@ -18,13 +22,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.minhnha.data.mapper.toUser
+import com.minhnha.domain.model.User
 import com.minhnha.domain.model.UserDetail
 import com.minhnha.domain.utils.Result
+import com.minhnha.githubuser.R
 import com.minhnha.githubuser.ui.composables.ErrorDialog
 import com.minhnha.githubuser.ui.composables.TopBar
 import com.minhnha.githubuser.ui.composables.UserCard
@@ -48,7 +59,9 @@ fun UserDetailView(
 
     when (uiState.userDetail) {
         is Result.Loading -> {
-            viewModel.getUserDetail(loginName)
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
         }
 
         is Result.Success -> {
@@ -68,7 +81,7 @@ fun UserDetailView(
         }
 
         is Result.Idle -> {
-            //Do nothing for Result.
+            viewModel.getUserDetail(loginName)
         }
     }
 }
@@ -101,11 +114,10 @@ fun UserDetailContent(
                     userInfo = userDetail.toUser(),
                     location = userDetail.location,
                     isDetailCard = true
-                ) {
-                    //Don't need to implement click event for this detail card
-                }
-                Text(text = "following: ${userDetail.following}")
-                Text(text = "follower: ${userDetail.followers}")
+                )
+                UserSubscriptionInfo(userDetail = userDetail)
+                Spacer(modifier = Modifier.height(20.dp))
+                Footer(userDetail = userDetail)
             }
             if (showErrorDialog.value) {
                 ErrorDialog(
@@ -120,4 +132,71 @@ fun UserDetailContent(
             }
         }
     }
+}
+
+@Composable
+fun UserSubscriptionInfo(userDetail: UserDetail) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceAround,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 20.dp)
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Image(
+                imageVector = ImageVector.vectorResource(id = R.drawable.baseline_people_24),
+                contentDescription = "location"
+            )
+            Text(
+                text = "${userDetail.followers}", style = TextStyle(
+                    color = Color.Black,
+                    fontSize = 12.sp
+                )
+            )
+            Text(
+                text = "Follower", style = TextStyle(
+                    color = Color.Black,
+                    fontSize = 12.sp
+                )
+            )
+        }
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Image(
+                imageVector = ImageVector.vectorResource(id = R.drawable.baseline_people_24),
+                contentDescription = "location"
+            )
+            Text(
+                text = "${userDetail.following}", style = TextStyle(
+                    color = Color.Black,
+                    fontSize = 12.sp
+                )
+            )
+            Text(
+                text = "Following", style = TextStyle(
+                    color = Color.Black,
+                    fontSize = 12.sp
+                )
+            )
+        }
+    }
+}
+
+@Composable
+fun Footer(userDetail: UserDetail) {
+    Text(
+        text = "Blog",
+        style = TextStyle(
+            color = Color.Black,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold
+        )
+    )
+    Spacer(modifier = Modifier.height(10.dp))
+    Text(
+        text = userDetail.htmlUrl,
+        style = TextStyle(
+            color = Color.Black,
+            fontSize = 12.sp
+        )
+    )
 }
