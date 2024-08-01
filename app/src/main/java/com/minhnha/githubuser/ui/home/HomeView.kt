@@ -47,10 +47,9 @@ fun HomeView(navController: NavController) {
         mutableListOf<User>()
     }
     LaunchedEffect(key1 = uiState) {
-        println("Trigger launch effect")
         viewModel.getUsers(1)
     }
-    val listUserState = uiState.value.listUsers
+    val listUserState = uiState.value.screenState
     when (listUserState) {
         is Result.Loading -> {
             isLoading.value = true
@@ -66,12 +65,17 @@ fun HomeView(navController: NavController) {
             isLoading.value = false
             listUser = listUserState.data.toMutableStateList()
         }
+
+        Result.Idle -> {
+            isLoading.value = false
+        }
     }
     HomeViewContent(
         listUser = listUser,
         showErrorDialog = showErrorDialog,
         errorMessage = errorMessage,
         isLoading = isLoading,
+        isLoadingMore = viewModel.isLoadingMore,
         onUserCardClick = {
             navController.navigate("UserDetail/${it}")
         },
@@ -92,6 +96,7 @@ fun HomeViewContent(
     showErrorDialog: MutableState<Boolean>,
     errorMessage: MutableState<String>,
     isLoading: MutableState<Boolean>,
+    isLoadingMore: MutableState<Boolean>,
     onUserCardClick: (loginName: String) -> Unit,
     onLoadMore: () -> Unit,
     onBackButtonClick: () -> Unit
@@ -126,7 +131,9 @@ fun HomeViewContent(
                 }
             }
             if (layoutInfo.value.visibleItemsInfo.lastOrNull()?.index == listUser.size - 1) {
-                onLoadMore()
+                if (!isLoadingMore.value) {
+                    onLoadMore()
+                }
             }
             if (showErrorDialog.value) {
                 ErrorDialog(

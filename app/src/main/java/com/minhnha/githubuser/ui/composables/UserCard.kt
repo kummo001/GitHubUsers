@@ -60,6 +60,12 @@ fun UserCard(
                 contentScale = ContentScale.Crop,
                 loading = {
                     CircularProgressIndicator()
+                },
+                error = {
+                    Image(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.baseline_people_24),
+                        contentDescription = "avatar"
+                    )
                 }
             )
             Column(modifier = Modifier.weight(3f)) {

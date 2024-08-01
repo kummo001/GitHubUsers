@@ -66,6 +66,10 @@ fun UserDetailView(
         is Result.Error -> {
             showErrorDialog.value = true
         }
+
+        is Result.Idle -> {
+            //Do nothing for Result.
+        }
     }
 }
 

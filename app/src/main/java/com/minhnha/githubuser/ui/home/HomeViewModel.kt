@@ -1,5 +1,7 @@
 package com.minhnha.githubuser.ui.home
 
+import android.util.Log
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.minhnha.domain.model.User
@@ -14,11 +16,13 @@ import javax.inject.Inject
 
 
 data class HomeUiState(
-    val listUsers: Result<List<User>>
+    val listUsers: List<User>,
+    val screenState: Result<List<User>>,
 ) {
     companion object {
         val default = HomeUiState(
-            listUsers = Result.Loading
+            listUsers = mutableListOf(),
+            screenState = Result.Idle
         )
     }
 }
@@ -32,21 +36,30 @@ class HomeViewModel @Inject constructor(
     val uiState: StateFlow<HomeUiState>
         get() = _uiState
 
+    val isLoadingMore = mutableStateOf(false)
+
 
     /**
      * Get list of users
      * @param page the page number to you want to get
      */
     fun getUsers(page: Int) {
+        Log.d("GitHubUser", "getUsers in vm: $page")
+        isLoadingMore.value = true
         viewModelScope.launch {
             val list = getUserUseCase.invoke(page)
             list.onSuccess {
+                isLoadingMore.value = false
                 _uiState.update { currentState ->
-                    val updatedList = (currentState.listUsers as? Result.Success)?.data.orEmpty() + it
-                    currentState.copy(listUsers = Result.Success(updatedList))
+                    val updatedList = currentState.listUsers + it
+                    currentState.copy(
+                        screenState = Result.Success(updatedList),
+                        listUsers = updatedList
+                    )
                 }
             }.onFailure {
-                _uiState.update { currentState -> currentState.copy(listUsers = Result.Error(it)) }
+                isLoadingMore.value = false
+                _uiState.update { currentState -> currentState.copy(screenState = Result.Error(it)) }
             }
         }
     }

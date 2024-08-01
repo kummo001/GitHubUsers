@@ -6,4 +6,5 @@ import com.minhnha.domain.model.UserDetail
 interface UserRepository {
     suspend fun getUsers(page: Int): Result<List<User>>
     suspend fun getUserDetail(loginName: String): Result<UserDetail>
+    suspend fun saveUserToDB(users: List<User>): Boolean
 }
