@@ -14,7 +14,7 @@ android {
     defaultConfig {
         minSdk 31
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.minhnha.data.HiltTestRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
 

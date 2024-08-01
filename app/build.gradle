@@ -90,6 +90,7 @@ dependencies {
     //Hilt
     implementation libs.hilt.android
     implementation libs.androidx.benchmark.common
+    implementation libs.androidx.appcompat
     annotationProcessor libs.hilt.compiler
     kapt libs.hilt.compiler
 
