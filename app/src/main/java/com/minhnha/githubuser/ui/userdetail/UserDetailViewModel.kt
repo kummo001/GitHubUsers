@@ -17,7 +17,7 @@ data class UserDetailUiState(
 ) {
     companion object {
         val default = UserDetailUiState(
-            userDetail = Result.Idle
+            userDetail = Result.Loading
         )
     }
 }
@@ -45,5 +45,9 @@ class UserDetailViewModel @Inject constructor(
                 _uiState.update { currentState -> currentState.copy(userDetail = Result.Error(it)) }
             }
         }
+    }
+
+    fun resetScreenState() {
+        _uiState.update { currentState -> currentState.copy(userDetail = Result.Idle) }
     }
 }

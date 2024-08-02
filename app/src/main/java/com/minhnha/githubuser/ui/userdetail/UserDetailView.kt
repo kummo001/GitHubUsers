@@ -15,6 +15,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -56,39 +58,50 @@ fun UserDetailView(
     val errorMessage = remember {
         mutableStateOf("")
     }
+    val userDetail = remember {
+        mutableStateOf<UserDetail?>(null)
+    }
+
+    DisposableEffect(key1 = uiState) {
+        onDispose {
+            viewModel.resetScreenState()
+        }
+    }
 
     when (uiState.userDetail) {
         is Result.Loading -> {
+            viewModel.getUserDetail(loginName)
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
             }
         }
 
         is Result.Success -> {
-            val userDetail = (uiState.userDetail as Result.Success).data
-            UserDetailContent(
-                userDetail = userDetail,
-                showErrorDialog = showErrorDialog,
-                isLoading = isLoading,
-                errorMessage = errorMessage
-            ) {
-                navController.popBackStack()
-            }
+            userDetail.value = (uiState.userDetail as Result.Success).data
         }
 
         is Result.Error -> {
+            errorMessage.value = (uiState.userDetail as Result.Error).exception.message ?: ""
             showErrorDialog.value = true
         }
 
         is Result.Idle -> {
-            viewModel.getUserDetail(loginName)
+            //do nothing
         }
+    }
+    UserDetailContent(
+        userDetail = userDetail.value,
+        showErrorDialog = showErrorDialog,
+        isLoading = isLoading,
+        errorMessage = errorMessage
+    ) {
+        navController.popBackStack()
     }
 }
 
 @Composable
 fun UserDetailContent(
-    userDetail: UserDetail,
+    userDetail: UserDetail?,
     showErrorDialog: MutableState<Boolean>,
     errorMessage: MutableState<String>,
     isLoading: MutableState<Boolean>,
@@ -110,11 +123,13 @@ fun UserDetailContent(
                     .padding(horizontal = 20.dp)
             ) {
                 Spacer(modifier = Modifier.height(10.dp))
-                UserCard(
-                    userInfo = userDetail.toUser(),
-                    location = userDetail.location,
-                    isDetailCard = true
-                )
+                if (userDetail != null) {
+                    UserCard(
+                        userInfo = userDetail.toUser(),
+                        location = userDetail.location,
+                        isDetailCard = true
+                    )
+                }
                 UserSubscriptionInfo(userDetail = userDetail)
                 Spacer(modifier = Modifier.height(20.dp))
                 Footer(userDetail = userDetail)
@@ -135,7 +150,7 @@ fun UserDetailContent(
 }
 
 @Composable
-fun UserSubscriptionInfo(userDetail: UserDetail) {
+fun UserSubscriptionInfo(userDetail: UserDetail?) {
     Row(
         horizontalArrangement = Arrangement.SpaceAround,
         modifier = Modifier
@@ -148,7 +163,7 @@ fun UserSubscriptionInfo(userDetail: UserDetail) {
                 contentDescription = "location"
             )
             Text(
-                text = "${userDetail.followers}", style = TextStyle(
+                text = "${userDetail?.followers ?: 0}", style = TextStyle(
                     color = Color.Black,
                     fontSize = 12.sp
                 )
@@ -166,7 +181,7 @@ fun UserSubscriptionInfo(userDetail: UserDetail) {
                 contentDescription = "location"
             )
             Text(
-                text = "${userDetail.following}", style = TextStyle(
+                text = "${userDetail?.following ?: 0}", style = TextStyle(
                     color = Color.Black,
                     fontSize = 12.sp
                 )
@@ -182,7 +197,7 @@ fun UserSubscriptionInfo(userDetail: UserDetail) {
 }
 
 @Composable
-fun Footer(userDetail: UserDetail) {
+fun Footer(userDetail: UserDetail?) {
     Text(
         text = "Blog",
         style = TextStyle(
@@ -193,7 +208,7 @@ fun Footer(userDetail: UserDetail) {
     )
     Spacer(modifier = Modifier.height(10.dp))
     Text(
-        text = userDetail.htmlUrl,
+        text = userDetail?.htmlUrl ?: "",
         style = TextStyle(
             color = Color.Black,
             fontSize = 12.sp

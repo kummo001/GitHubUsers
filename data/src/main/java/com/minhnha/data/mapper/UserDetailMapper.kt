@@ -8,7 +8,7 @@ fun UserDetailResponse.toUserDetail() = UserDetail(
     loginName = loginName,
     avatarUrl = avatarUrl,
     htmlUrl = htmlUrl,
-    location = location,
+    location = location ?: "unknown",
     followers = followers,
     following = following
 )

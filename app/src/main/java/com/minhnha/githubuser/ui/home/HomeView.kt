@@ -66,7 +66,7 @@ fun HomeView(navController: NavController) {
             listUser = listUserState.data.toMutableStateList()
         }
 
-        Result.Idle -> {
+        is Result.Idle -> {
             isLoading.value = false
         }
     }

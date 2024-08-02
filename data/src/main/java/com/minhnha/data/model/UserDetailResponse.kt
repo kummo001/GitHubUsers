@@ -14,7 +14,7 @@ data class UserDetailResponse(
     val htmlUrl: String,
 
     @SerializedName("location")
-    val location: String,
+    val location: String?,
 
     @SerializedName("followers")
     val followers: Int,

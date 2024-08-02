@@ -16,12 +16,10 @@ import javax.inject.Inject
 
 
 data class HomeUiState(
-    val listUsers: List<User>,
     val screenState: Result<List<User>>,
 ) {
     companion object {
         val default = HomeUiState(
-            listUsers = mutableListOf(),
             screenState = Result.Idle
         )
     }
@@ -51,10 +49,9 @@ class HomeViewModel @Inject constructor(
             list.onSuccess {
                 isLoadingMore.value = false
                 _uiState.update { currentState ->
-                    val updatedList = currentState.listUsers + it
+                    val updatedList = (currentState.screenState as? Result.Success)?.data.orEmpty() + it
                     currentState.copy(
-                        screenState = Result.Success(updatedList),
-                        listUsers = updatedList
+                        screenState = Result.Success(updatedList)
                     )
                 }
             }.onFailure {
