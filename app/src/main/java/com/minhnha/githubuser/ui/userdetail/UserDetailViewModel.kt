@@ -34,7 +34,7 @@ class UserDetailViewModel @Inject constructor(
 
     /**
      * Get user detail information
-     * @param loginName user login name use to call api
+     * @param loginName user login name which you want to get information
      */
     fun getUserDetail(loginName: String) {
         viewModelScope.launch {
@@ -46,7 +46,9 @@ class UserDetailViewModel @Inject constructor(
             }
         }
     }
-
+    /**
+     * Reset screen state to Idle
+     */
     fun resetScreenState() {
         _uiState.update { currentState -> currentState.copy(userDetail = Result.Idle) }
     }

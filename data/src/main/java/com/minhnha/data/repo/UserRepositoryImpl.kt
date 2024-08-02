@@ -17,6 +17,12 @@ class UserRepositoryImpl @Inject constructor(
     private val userDao: UserDao,
 ) : UserRepository {
 
+    /**
+     * Get Users from api, if page == 1 and cached users is
+     * empty then save users to room database for caching
+     * @param page the page number to you want to get
+     * @return Result<List<User>> with success or failure
+     */
     override suspend fun getUsers(page: Int): Result<List<User>> {
         val cachedUsers = userDao.getUsers()
         //Get page 1 users from room database
@@ -40,6 +46,11 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+     * Get user detail from api
+     * @param loginName user login name
+     * @return Result<UserDetail> with success or failure
+     */
     override suspend fun getUserDetail(loginName: String): Result<UserDetail> {
         return try {
             val response = apiService.getUserDetail(loginUsername = loginName)
@@ -49,6 +60,11 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+     * Save users to room database
+     * @param users list of user to save
+     * @return true if success, false if failure
+     */
     override suspend fun saveUserToDB(users: List<User>): Boolean {
         return try {
             withContext(Dispatchers.IO) {
