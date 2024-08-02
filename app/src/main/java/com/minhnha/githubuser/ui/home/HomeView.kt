@@ -1,5 +1,6 @@
 package com.minhnha.githubuser.ui.home
 
+import android.os.SystemClock
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -105,6 +106,7 @@ fun HomeViewContent(
     val layoutInfo = remember {
         derivedStateOf { listState.layoutInfo }
     }
+    var lastClickTime = 0L
     Scaffold(topBar = {
         TopBar(title = "GitHub Users") {
             onBackButtonClick()
@@ -125,7 +127,11 @@ fun HomeViewContent(
                         Spacer(modifier = Modifier.height(10.dp))
                     }
                     UserCard(userInfo = listUser[index]) {
-                        onUserCardClick(it)
+                        val currentTime = SystemClock.elapsedRealtime()
+                        if (currentTime - lastClickTime >= 300L) {
+                            lastClickTime = currentTime
+                            onUserCardClick(it)
+                        }
                     }
                     Spacer(modifier = Modifier.height(20.dp))
                 }
