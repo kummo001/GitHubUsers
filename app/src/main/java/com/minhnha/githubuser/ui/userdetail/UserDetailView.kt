@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.minhnha.data.mapper.toUser
 import com.minhnha.domain.model.User
 import com.minhnha.domain.model.UserDetail
 import com.minhnha.domain.utils.Result
@@ -41,6 +40,7 @@ import com.minhnha.githubuser.R
 import com.minhnha.githubuser.ui.composables.ErrorDialog
 import com.minhnha.githubuser.ui.composables.TopBar
 import com.minhnha.githubuser.ui.composables.UserCard
+import com.minhnha.githubuser.utils.toUser
 
 @Composable
 fun UserDetailView(

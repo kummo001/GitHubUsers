@@ -1,4 +1,4 @@
-package com.minhnha.githubuser.di
+package com.minhnha.data.di
 
 import com.minhnha.data.repo.UserRepositoryImpl
 import com.minhnha.domain.interfaces.UserRepository
@@ -8,8 +8,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-@InstallIn(SingletonComponent::class)
 @Module
+@InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
 
     @Binds

@@ -1,4 +1,4 @@
-package com.minhnha.githubuser.di
+package com.minhnha.data.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
